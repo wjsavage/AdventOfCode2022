@@ -5,7 +5,7 @@ with open("input.txt") as file:
         plays.append((ord(a) - ord('A'), ord(b) - ord('X')))
 
 
-def result_score(opponent, player):
+def result_score(opponent: int, player: int) -> int:
     if (opponent - player + 3) % 3 == 1:
         return 0
     if opponent == player:
@@ -13,7 +13,7 @@ def result_score(opponent, player):
     return 6
 
 
-def calc_choice(opponent, result):
+def calc_choice(opponent: int, result: int) -> int:
     if result == 0:
         return opponent if opponent > 0 else 3
     if result == 1:
