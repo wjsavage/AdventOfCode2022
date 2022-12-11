@@ -1,6 +1,5 @@
 from collections import defaultdict
-import math
-import heapq
+from tqdm import tqdm
 from functools import reduce
 from operator import mul
 from dataclasses import dataclass
@@ -31,14 +30,18 @@ def main() -> None:
         LCM *= divisor
         monkey_data.append(MonkeyData(equation, divisor, true_dest, false_dest))
 
-    for round in range(10_000):
-        for i, monkey in enumerate(monkeys):
+    # Part A config
+    # n, func = 20, lambda x: int(math.floor(x/3))
+    # Part B config
+    n, func = 10_000, lambda x: x % LCM
+
+    for round in tqdm(range(n)):
+        for i in range(len(monkeys)):
             monkey_inspect_count[i] += len(monkey_items[i])
             data = monkey_data[i]
 
             monkey_items[i] = [eval(data.equation) for old in monkey_items[i]]
-            # monkey_items[i] = [int(math.floor(item/3)) for item in monkey_items[i]]
-            monkey_items[i] = [item % LCM for item in monkey_items[i]]
+            monkey_items[i] = [func(item) for item in monkey_items[i]]
 
             for val in monkey_items[i]:
                 if not val % data.divisor:
